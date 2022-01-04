@@ -1,0 +1,21 @@
+{
+  "projects": {
+    "default": "digify-rmg"
+  },
+  "targets": {
+    "uber-eats-6c259": {
+      "hosting": {
+        "app": [
+          "uber-eats-6c259"
+        ]
+      }
+    },
+    "digify-rmg": {
+      "hosting": {
+        "app": [
+          "digify-rmg"
+        ]
+      }
+    }
+  }
+}
