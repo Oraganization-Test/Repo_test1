@@ -26,7 +26,7 @@ steps:
   displayName: 'npm run build'
   inputs:
     command: custom
-    customCommand: ng build --prod
+    customCommand: ng build
 
 - publish: 'www/' # Publish App artifact
   artifact: 'www'
