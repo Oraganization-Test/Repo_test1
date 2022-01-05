@@ -10,6 +10,31 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+# This task trigger a new build to run, this build is the same as the step above that generates the bundle
+- task: TriggerBuild@3
+  displayName: 'trigger App Build CI'
+  inputs:
+    definitionIsInCurrentTeamProject: true
+    buildDefinition: 'App Build CI'
+    queueBuildForUserThatTriggeredBuild: true
+    ignoreSslCertificateErrors: true
+    useSameSourceVersion: false
+    useCustomSourceVersion: false
+    useSameBranch: true
+    waitForQueuedBuildsToFinish: true
+    waitForQueuedBuildsToFinishRefreshTime: '10'
+    failTaskIfBuildsNotSuccessful: true
+    cancelBuildsIfAnyFails: false
+    treatPartiallySucceededBuildAsSuccessful: false
+    downloadBuildArtifacts: false
+    storeInEnvironmentVariable: true
+    authenticationMethod: 'OAuth Token'
+    password: '$(System.AccessToken)' # Necessary allow permission of Queue builds to <Project> Build Service, See the troubleshooting topic 
+    enableBuildInQueueCondition: false
+    dependentOnSuccessfulBuildCondition: false
+    dependentOnFailedBuildCondition: false
+    checkbuildsoncurrentbranch: false
+    failTaskIfConditionsAreNotFulfilled: false
 
 # Download the artifact of the build triggered above
 - task: DownloadPipelineArtifact@2
