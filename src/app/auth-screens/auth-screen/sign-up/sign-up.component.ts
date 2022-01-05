@@ -45,8 +45,8 @@ export class SignUpComponent implements OnInit {
     this.isLoading = true;
     console.log(this.form.value);
     this.authService.register(this.form.value).then((data) => {
-      console.log(data);
-      this.router.navigateByUrl('/tabs', {replaceUrl: true});
+      //console.log(data);
+      this.router.navigateByUrl('/dashboard', {replaceUrl: true});
       this.isLoading = false;
       this.form.reset();
     })

@@ -5,7 +5,8 @@ import {
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { StorageService } from '../storage.service';
 
-export const user_key = 'maza_eats_user_id';
+export const user_key = 'digify_user_id';
+export const user_emailid = 'digify_emailid';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthService {
   async register(formValue) {
     try {
       const registeredUser = await createUserWithEmailAndPassword(this._fireAuth, formValue.email, formValue.password);
-      console.log('registered user: ', registeredUser);
+      //console.log('registered user: ', registeredUser);
       const uid = registeredUser.user.uid;
       const dataRef = doc(this._firestore, `users/${uid}`); 
       setDoc(dataRef, formValue);
@@ -35,10 +36,13 @@ export class AuthService {
   async login(formValue) {
     try {
       const response = await signInWithEmailAndPassword(this._fireAuth, formValue.email, formValue.password);
-      console.log('login user: ', response);
+      //console.log('login user: ', response);
       if(response?.user) {
         const uid = response.user.uid;
+        const emailid = response.user.email;
         await this.storage.setStorage(user_key, uid);
+        await this.storage.setStorage(user_emailid, emailid);
+        
         return uid;
       } else {
         return false;
