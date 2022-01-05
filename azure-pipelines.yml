@@ -19,7 +19,7 @@ steps:
   displayName: 'npm install'
   inputs:
     command: 'custom'
-    customCommand: install --no-optional
+    customCommand: install -g
     workingDir: '$(System.DefaultWorkingDirectory)'
 
 - task: Npm@1 # Run npm run build
