@@ -15,8 +15,18 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ionic build --prod
-  displayName: 'npm install and build'
+- task: Npm@1 # Run npm install
+  displayName: 'npm install'
+  inputs:
+    command: install
+    workingDir: '$(System.DefaultWorkingDirectory)'
+
+- task: Npm@1 # Run npm run build
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    customCommand: run build
+
+- publish: 'www/' # Publish App artifact
+  artifact: 'www'
+  displayName: 'Publishing Artifact'
