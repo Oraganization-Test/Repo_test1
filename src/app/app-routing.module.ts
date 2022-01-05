@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule)
   },
+  {
+    path: 'send-letter',
+    loadChildren: () => import('./pages/send-letter/send-letter.module').then( m => m.SendLetterPageModule)
+  },
 ];
 
 @NgModule({

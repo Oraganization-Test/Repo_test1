@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Send Letter
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content>
+  <div>
+    <ion-button (click)="getPermission()">Get Permission</ion-button>
+    <ion-button (click)="startListening()">Record Message</ion-button>
+    <ion-button (click)="stopListening()">Stop Message</ion-button>
+  </div>
+  
+  <ion-card>
+    <ion-card-header>Your Text Message</ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let match of matches">
+          {{ match }}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
