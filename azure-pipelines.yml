@@ -19,6 +19,7 @@ steps:
   displayName: 'npm install'
   inputs:
     command: install
+    customCommand: --no-optional
     workingDir: '$(System.DefaultWorkingDirectory)'
 
 - task: Npm@1 # Run npm run build
