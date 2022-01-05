@@ -1,0 +1,66 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+# Download the artifact of the build triggered above
+- task: DownloadPipelineArtifact@2
+  displayName: 'download artifact App Build CI'
+  inputs:
+    buildType: 'specific'
+    project: 'Ionic App'
+    definition: 'App Build CI'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'specific'
+    runId: '$(TriggeredBuildIds)'
+    targetPath: '$(Build.BinariesDirectory)'
+
+# Moves the www folder containing bundle to the Default Working Directory path (e.g. /agent/_work/1/s)
+- bash: |
+      mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
+  displayName: 'mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)'
+
+- bash: | # Installing cordova
+    sudo npm i -g cordova
+  displayName: 'npm i -g cordova@latest'
+
+- bash: | # Build android App using cordova
+    npx ionic cordova build android --no-build --release
+  displayName: 'ionic cordova build android --no-build --release'
+
+# Needed to solve missing dependency problem, see the troubleshooting topic
+- bash: |
+    sudo apt-get install lib32z1
+  displayName: 'sudo apt-get install lib32z1'
+
+# Signin the .apk file with the specified keystore
+- task: AndroidSigning@3
+  displayName: 'android signing'
+  inputs:
+    apkFiles: '**/outputs/apk/release/app*.apk'
+    apksignerKeystoreFile: 'sampleapp.keystore'
+# This password is placed in Variables inside the pipeline and the option to keep the value secret is checked.
+    apksignerKeystorePassword: '$(password_keystore)'
+    apksignerKeystoreAlias: 'sampleapp'
+
+- task: CopyFiles@2 # Copies all .apk files to publish
+  displayName: 'copy **/outputs/apk/release/app*.apk to $(Build.BinariesDirectory)'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/outputs/apk/release/app*.apk'
+    CleanTargetFolder: true
+    TargetFolder: '$(Build.BinariesDirectory)'
+    flattenFolders: true
+
+
+- publish: '$(Build.BinariesDirectory)' # Publish artifact
+  artifact: 'android-app'
+  displayName: 'publish artifact'
