@@ -14,7 +14,7 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 
-import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/ngx'
+import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/ngx';
 
 @NgModule({
     declarations: [AppComponent],

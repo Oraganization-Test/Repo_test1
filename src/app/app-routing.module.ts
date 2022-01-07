@@ -35,6 +35,18 @@ const routes: Routes = [
     path: 'send-letter',
     loadChildren: () => import('./pages/send-letter/send-letter.module').then( m => m.SendLetterPageModule)
   },
+  {
+    path: 'record-message',
+    loadChildren: () => import('./pages/record-message/record-message.module').then( m => m.RecordMessagePageModule)
+  },
+  {
+    path: 'audio-list',
+    loadChildren: () => import('./pages/audio-list/audio-list.module').then( m => m.AudioListPageModule)
+  },
+  {
+    path: 'add-photo',
+    loadChildren: () => import('./pages/add-photo/add-photo.module').then( m => m.AddPhotoPageModule)
+  },
 ];
 
 @NgModule({
