@@ -6,7 +6,7 @@ import { IntroGuard } from './guards/intro.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'auth-screen',
     pathMatch: 'full'
   },
   {
@@ -17,11 +17,6 @@ const routes: Routes = [
     path: 'auth-screen',
     loadChildren: () => import('./auth-screens/auth-screen/auth-screen.module').then( m => m.AuthScreenPageModule),
     canLoad: [IntroGuard]
-  },
-  {
-    path: 'tabs',
-    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule),
-    canActivate: [AuthGuard]
   },
   {
     path: 'dashboard',
@@ -46,6 +41,10 @@ const routes: Routes = [
   {
     path: 'add-photo',
     loadChildren: () => import('./pages/add-photo/add-photo.module').then( m => m.AddPhotoPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
   },
 ];
 

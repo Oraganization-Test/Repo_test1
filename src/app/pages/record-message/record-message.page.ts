@@ -28,11 +28,11 @@ export class RecordMessagePage implements OnInit {
 
     this.speechRecognitionLanguage = "en-US";
     //this._audioConfig = AudioConfig.fromDefaultMicrophoneInput();
-    this._file.checkDir(this._file.dataDirectory, 'audio')
-              .then(_ => console.log('Directory exists'))
-              .catch(err => console.log("Directory doesn't exist"));
+    // this._file.checkDir(this._file.dataDirectory, 'audio')
+    //           .then(_ => console.log('Directory exists'))
+    //           .catch(err => console.log("Directory doesn't exist"));
 
-    const fileName = "../assets/audio/sample.mp4";
+    //const fileName = "../assets/audio/sample.mp4";
     //const file = File(filename);
 
     // this._file.resolveLocalFilesystemUrl("https://jsoncompare.org/LearningContainer/SampleFiles/Video/MP4/sample-mp4-file.mp4")

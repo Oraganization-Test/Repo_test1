@@ -11,11 +11,5 @@
   <div *ngIf="userEmailId" class="ion-padding-top ion-text-center">
     <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
     <h2>{{userEmailId}}</h2>
-
-    <ion-list inset>
-      <ion-item (click)="updatePicture()">Update Picture</ion-item>
-      <ion-item (click)="changePassword()">Change Password</ion-item>
-      <ion-item (click)="logout()">Logout</ion-item>
-    </ion-list>
   </div>
 </ion-content>

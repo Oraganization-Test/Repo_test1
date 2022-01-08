@@ -21,27 +21,11 @@ export class AccountPage implements AfterViewInit {
     this.getUserEmailId();
   }
 
-  updatePicture() {
-    console.log('Clicked to update picture');
-  }
-
   getUserEmailId() {
     this.storage.getStorage('digify_emailid').then((val) => {
       //console.log('EmailID', val);
       this.userEmailId =  val.value;
     });    
-  }
-
-  changePassword() {
-    console.log('Clicked to change password');
-  }
-
-  logout() {
-    this.router.navigateByUrl('/login');
-  }
-
-  support() {
-    this.router.navigateByUrl('/support');
   }
 
   getLoggedUserName(): Promise <string> {
