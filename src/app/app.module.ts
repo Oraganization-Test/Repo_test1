@@ -14,8 +14,6 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 
-import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/ngx';
-
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -29,7 +27,7 @@ import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/n
         provideMessaging(() => getMessaging()),
         provideStorage(() => getStorage())
     ],
-    providers: [SpeechRecognition, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

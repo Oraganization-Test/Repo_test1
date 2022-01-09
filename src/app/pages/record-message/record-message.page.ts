@@ -12,12 +12,15 @@ export class RecordMessagePage implements OnInit {
 
   hasRecognitionStarted: boolean;
   speechRecognitionLanguage: string;
+  responseMessage: string;
   //private _recognizer: TranslationRecognizer;
   private _recognizer: SpeechRecognizer;
   private _speechTranslationConfig: SpeechTranslationConfig;
   private _audioConfig: AudioConfig;
   private _SpeechConfig: SpeechConfig;
   private _file: File;
+
+
   constructor() { }
 
   ngOnInit() {
@@ -27,6 +30,7 @@ export class RecordMessagePage implements OnInit {
   initRecognition() {
 
     this.speechRecognitionLanguage = "en-US";
+    this.responseMessage = "";
     //this._audioConfig = AudioConfig.fromDefaultMicrophoneInput();
     // this._file.checkDir(this._file.dataDirectory, 'audio')
     //           .then(_ => console.log('Directory exists'))
@@ -48,32 +52,33 @@ export class RecordMessagePage implements OnInit {
 
     
     this._audioConfig = AudioConfig.fromMicrophoneInput();
-    this._speechTranslationConfig = SpeechTranslationConfig.fromSubscription("1188bc20d70a42fa8d975bea645810c9", "eastasia");
-    this._speechTranslationConfig.speechRecognitionLanguage = this.speechRecognitionLanguage;
+    //this._speechTranslationConfig = SpeechTranslationConfig.fromSubscription("1188bc20d70a42fa8d975bea645810c9", "eastasia");
+    //this._speechTranslationConfig.speechRecognitionLanguage = this.speechRecognitionLanguage;
     this._SpeechConfig = SpeechConfig.fromSubscription("1188bc20d70a42fa8d975bea645810c9", "eastasia");
+    this._SpeechConfig.speechRecognitionLanguage = this.speechRecognitionLanguage;
     //this._recognizer = new TranslationRecognizer(this._speechTranslationConfig, this._audioConfig);
     this._recognizer = new SpeechRecognizer(this._SpeechConfig, this._audioConfig);
     this._recognizer.recognized = this.handleRecognizedResponse.bind(this);
     this._recognizer.canceled = this.handleCanceled.bind(this);
-  } 
-
-  
+  }  
 
   startContinuousRecognition() {
     try {
       this._recognizer.startContinuousRecognitionAsync(() => {
         console.log('Recognition started');
-        
+        this.responseMessage += "Recognition started";
         this.hasRecognitionStarted = true;
       });
     }
     catch (e) {
       console.log('error', e);
+      this.responseMessage += "Error :" + e;
     }
   }
 
   stopRecognition() {
     this._recognizer.stopContinuousRecognitionAsync(() => {
+      this.responseMessage += "Closed";
       this._recognizer.close();
     });
   }

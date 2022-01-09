@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/ngx';
+import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 
 @Component({
@@ -9,11 +9,11 @@ import { SpeechRecognition } from '@awesome-cordova-plugins/speech-recognition/n
 })
 export class SendLetterPage implements OnInit {
 
-  matches: String[];
+  matches: Array<string> = [];
   isRecording = false;
   responseMessage: string;
 
-  constructor(private speechRecognition: SpeechRecognition) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class SendLetterPage implements OnInit {
 
   // Check feature available
   isFeatureAvailable() {
-    this.speechRecognition.isRecognitionAvailable()
+    SpeechRecognition.isRecognitionAvailable()
       .then((available: boolean) => { 
         console.log(available); 
         this.responseMessage += available;
@@ -33,21 +33,18 @@ export class SendLetterPage implements OnInit {
   // Start the recognition process
   startListening() {
     let options = {
-      language: 'en-US'
+      language: 'en-US',
+      prompt: 'Speak into your phone'
     }
 
     this.isRecording = true;
     this.responseMessage += "Started";
-    this.speechRecognition.startListening(options)
+    SpeechRecognition.startListening()
       .subscribe(
-        (matches: string[]) => 
-          {
-            console.log(matches); 
-            this.responseMessage += matches;
-          },
-        (onerror) => {
+        data => this.matches = data,
+        error => {
           console.log('error:', onerror);
-          this.responseMessage += onerror;
+          this.responseMessage += "Error: " + onerror.toString;
         }
       )
   }
@@ -56,12 +53,12 @@ export class SendLetterPage implements OnInit {
   stopListening() {
     this.isRecording = false;
     this.responseMessage += "Stopped";
-    this.speechRecognition.stopListening();
+    SpeechRecognition.stopListening();
   }
 
   // Get the list of supported languages
   getSupportedLanguage() {
-    this.speechRecognition.getSupportedLanguages()
+    SpeechRecognition.getSupportedLanguages()
       .then(
         (languages: string[]) => console.log(languages),
         (error) => console.log(error)
@@ -69,17 +66,26 @@ export class SendLetterPage implements OnInit {
   }
 
   // Check permission
-  checkPermission() {
-    this.speechRecognition.hasPermission()
-      .then((hasPermission: boolean) => console.log(hasPermission))
+  hasPermission() {
+    SpeechRecognition.hasPermission()
+      .then((hasPermission: boolean) => {
+        console.log(hasPermission);
+        this.responseMessage += "Has Permission: " + hasPermission;
+      })
   }
 
   // Request permissions
   getPermission() {
-    this.speechRecognition.requestPermission()
+    SpeechRecognition.requestPermission()
       .then(
-        () => console.log('Granted'),
-        () => console.log('Denied')
+        () => {
+          console.log('Granted');
+          this.responseMessage += "Permission Granted.";
+        },
+        () => {
+          console.log('Denied');
+          this.responseMessage += "Permission Denied.";
+        }
       )
   }
 }
