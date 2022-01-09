@@ -63,6 +63,7 @@ export class RecordMessagePage implements OnInit {
     try {
       this._recognizer.startContinuousRecognitionAsync(() => {
         console.log('Recognition started');
+        
         this.hasRecognitionStarted = true;
       });
     }

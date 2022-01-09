@@ -11,17 +11,23 @@ export class SendLetterPage implements OnInit {
 
   matches: String[];
   isRecording = false;
+  responseMessage: string;
 
   constructor(private speechRecognition: SpeechRecognition) {
   }
 
   ngOnInit() {
+    this.responseMessage = "";
   }
 
   // Check feature available
   isFeatureAvailable() {
     this.speechRecognition.isRecognitionAvailable()
-      .then((available: boolean) => { console.log(available); this.isRecording = available; });
+      .then((available: boolean) => { 
+        console.log(available); 
+        this.responseMessage += available;
+        this.isRecording = available; 
+      });
   }
 
   // Start the recognition process
@@ -31,16 +37,25 @@ export class SendLetterPage implements OnInit {
     }
 
     this.isRecording = true;
+    this.responseMessage += "Started";
     this.speechRecognition.startListening(options)
       .subscribe(
-        (matches: string[]) => console.log(matches),
-        (onerror) => console.log('error:', onerror)
+        (matches: string[]) => 
+          {
+            console.log(matches); 
+            this.responseMessage += matches;
+          },
+        (onerror) => {
+          console.log('error:', onerror);
+          this.responseMessage += onerror;
+        }
       )
   }
 
   // Stop the recognition process (iOS only)
   stopListening() {
     this.isRecording = false;
+    this.responseMessage += "Stopped";
     this.speechRecognition.stopListening();
   }
 

@@ -34,6 +34,11 @@ export class AppComponent {
       icon: 'mic'
     },
     {
+      title: 'Send Letter',
+      url: '/send-letter',
+      icon: 'rocket'
+    },
+    {
       title: 'Settings',
       url: '/settings',
       icon: 'settings'
